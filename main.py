@@ -103,7 +103,7 @@ def select_a_friend():
                                                    friend.rating)
         item_number = item_number + 1
 
-    friend_choice = raw_input("Choose from your friends")
+    friend_choice = raw_input("Choose from your friends ")
 
     friend_choice_position = int(friend_choice) - 1
 
@@ -116,7 +116,7 @@ def send_message():
     if friend_choice + 1 <= len(friends):
         original_image = raw_input("What is the name of the image?")
         output_path = 'output.jpg'
-        text = raw_input("What do you want to say? ")
+        text = raw_input("What do you want to say? Word Limit-100")
         Steganography.encode(original_image, output_path, text)
 
         new_chat = ChatMessage(text, True)
@@ -135,12 +135,15 @@ def read_message():
         output_path = raw_input("What is the name of the file?")
 
         secret_text = Steganography.decode(output_path)
-        print secret_text
-        new_chat = ChatMessage(secret_text, False)
+        if len(secret_text.split()) < 100:
+            print secret_text
+            new_chat = ChatMessage(secret_text, False)
 
-        friends[sender].chats.append(new_chat)
-
-        print "Your secret message has been saved!"
+            friends[sender].chats.append(new_chat)
+            print "Your secret message has been saved!"
+        else:
+            friends.remove(friends[sender])
+            print "Your Friend didn't follow the word limit and so he has been deleted!!"
 
     else:
         print "Invalid Input!!"
@@ -149,7 +152,7 @@ def read_chat_history():
 
     read_for = select_a_friend()
 
-    print '\n6'
+    print '\n'
 
     for chat in friends[read_for].chats:
         if chat.sent_by_me:
@@ -229,9 +232,9 @@ elif existing=="N":
 
                         start_chat(spy)
             else:
-                "Invalid Input!! Please enter proper salutation."
+                print "Invalid Input!! Please enter proper salutation."
         else:
-            "Invalid Input!! Please enter propper salutation."
+            print "Invalid Input!! Please enter propper salutation."
 
 
     else:
