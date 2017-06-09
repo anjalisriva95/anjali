@@ -83,8 +83,6 @@ def add_friend():
         if len(new_friend.salutation) > 0:
             if new_friend.salutation =="Mr." or new_friend.salutation =="Ms." or new_friend.salutation =="Doc." or new_friend.salutation =="Prof.":
 
-                #Joining name with the salutation and storing it in name
-                new_friend.name = new_friend.salutation + " " + new_friend.name
                 #Taking input for Age
                 new_friend.age = raw_input("Age?")
 
@@ -176,7 +174,18 @@ def read_message():
             secret_text = Steganography.decode(output_path)#the image is decoded using steganography
             if secret_text.isspace()==False:#Edge case when image contains no message
                 if len(secret_text.split()) < 100: #check if the spy is saying more than 100 words
-                    print secret_text #print the secret text
+                    secret_text = secret_text.upper() #Changing the text to upper case
+                    if "SOS" in secret_text.split():#.split() function split the text and then we search for 'SOS'
+                        print colored("Call for more Help;DISTRESS SIGNAL",'green')
+                    elif "BLOWN" in secret_text.split():#.split() function split the text and then we search for 'BLOWN'
+                        print colored("Agents true identity discovered",'green')
+                    elif "HUMINT" in secret_text.split():#.split() function split the text and then we search for 'HUMINT'
+                        print colored("Intelligence collected from Human Sources",'green')
+                    elif "OSINT" in secret_text.split():#.split() function split the text and then we search for 'OSINT'
+                        print colored("Open source Intelligence ",'green')
+                    else:
+                        print secret_text #print the secret text
+
                     new_chat = ChatMessage(secret_text, False) #meassge added to the chat as send by the SPY
 
                     friends[sender].chats.append(new_chat)#message appended in the chat of a particular friend
